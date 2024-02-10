@@ -1,0 +1,40 @@
+﻿@page "/edit/{personId:int}"
+
+@inject PersonContext db
+@inject NavigationManager nav
+
+<h3>EditPerson</h3>
+
+
+<div>
+    <label for="txtName">Name</label>
+
+    <InputText id="txtName" class="form-control" @bind-Value="@person.PersonName"></InputText>
+
+    <button class="btn btn-success" @onclick="SavePerson">Save</button>
+
+
+
+
+</div>
+
+@code {
+    [Parameter]
+    public int personId{ get; set; }
+
+    public Person person { get; set; } = new Person();
+
+    protected override void OnInitialized()
+    {
+        person = db.Persons.Find(personId);
+        base.OnInitialized();
+    }
+
+    public void SavePerson()
+    {
+        db.Entry<Person>(person).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        db.SaveChanges();
+        nav.NavigateTo("/ppl");
+    }
+
+}

@@ -1,0 +1,37 @@
+﻿@page "/add-person"
+@using BlazorApp1.Models
+@inject PersonContext db
+@inject NavigationManager nav
+<h2>
+    Add Person
+</h2>
+
+
+
+
+<div>
+    <label for="txtName">Name</label>
+
+    <InputText id="txtName" class="form-control" @bind-Value="@person.PersonName"></InputText>
+
+    <button class="btn btn-success" @onclick="SavePerson">Save</button>
+
+
+
+
+</div>
+
+@code{
+
+
+    public Person person { get; set; } = new Person();
+
+
+    public void SavePerson()
+    {
+        db.Persons.Add(person);
+        db.SaveChanges();
+        nav.NavigateTo("/ppl");
+    }
+
+}
